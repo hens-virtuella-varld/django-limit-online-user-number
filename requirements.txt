@@ -1,1 +1,2 @@
-django-redis>=4.4.4
+django-active-users
+django>=2.1.7
