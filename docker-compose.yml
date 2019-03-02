@@ -13,4 +13,6 @@ app:
     - REDIS_HOST=redis://redis:6379/0
   volumes:
     - ./:/src
-  command:
+  ports:
+    - "8000:8000"
+  command: tail -F /dev/null
