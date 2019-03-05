@@ -3,6 +3,7 @@ from django.db import models
 
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.sessions.models import Session
+from django.utils.timezone import now
 
 
 class UserSession(models.Model):
@@ -12,9 +13,10 @@ class UserSession(models.Model):
 
 
 def user_logged_in_handler(sender, request, user, **kwargs):
-    UserSession.objects.get_or_create(
-        user = user,
-        session_id = request.session.session_key
+    UserSession.objects.update_or_create(
+        user=user,
+        session_id=request.session.session_key,
+        defaults={'last_visit': now()}
     )
 
 
