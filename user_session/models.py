@@ -8,6 +8,7 @@ from django.contrib.sessions.models import Session
 class UserSession(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    last_visit = models.DateTimeField(null=True)
 
 
 def user_logged_in_handler(sender, request, user, **kwargs):
