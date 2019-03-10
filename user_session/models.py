@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.db import models
-
+from django.contrib.auth import logout
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.sessions.models import Session
-from django.utils.timezone import now
+from django.utils import timezone
 
 
 class UserSession(models.Model):
@@ -12,12 +12,12 @@ class UserSession(models.Model):
     last_visit = models.DateTimeField(null=True)
 
 
+def active_user_session_number():
+    return UserSession.objects.filter(last_visit__gte=timezone.now() - timezone.timedelta(minutes=1)).count()
+
 def user_logged_in_handler(sender, request, user, **kwargs):
-    UserSession.objects.update_or_create(
-        user=user,
-        session_id=request.session.session_key,
-        defaults={'last_visit': now()}
-    )
+    if active_user_session_number() > 1:
+        return logout(request)
 
 
 user_logged_in.connect(user_logged_in_handler)

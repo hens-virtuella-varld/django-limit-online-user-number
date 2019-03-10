@@ -1,9 +1,17 @@
+db:
+  image: postgres
+  restart: always
+  environment:
+    POSTGRES_PASSWORD: example
+
 app:
   build: .
   working_dir: /src
   restart: always
   volumes:
     - ./:/src
+  links:
+    - db
   ports:
     - "8000:8000"
   command: tail -F /dev/null
