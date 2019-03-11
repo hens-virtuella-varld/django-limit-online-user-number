@@ -18,7 +18,7 @@ def active_user_session_number():
     ).count()
 
 def user_logged_in_handler(sender, request, user, **kwargs):
-    if active_user_session_number() >= settings.SESSION_COOKIE_AGE:
+    if active_user_session_number() >= settings.SESSION_NUMBER_LIMIT:
         return logout(request)
 
 
