@@ -13,10 +13,12 @@ class UserSession(models.Model):
 
 
 def active_user_session_number():
-    return UserSession.objects.filter(last_visit__gte=timezone.now() - timezone.timedelta(minutes=1)).count()
+    return UserSession.objects.filter(
+        last_visit__gte=timezone.now() - timezone.timedelta(seconds=settings.SESSION_COOKIE_AGE)
+    ).count()
 
 def user_logged_in_handler(sender, request, user, **kwargs):
-    if active_user_session_number() > 1:
+    if active_user_session_number() >= settings.SESSION_COOKIE_AGE:
         return logout(request)
 
 

@@ -124,3 +124,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SESSION_COOKIE_AGE = 10 * 60 # 10 mins
+SESSION_NUMBER_LIMIT = 10
